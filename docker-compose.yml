@@ -39,5 +39,5 @@ volumes:
     driver: local
     driver_opts: 
       type: none
-      device: ${PWD}/cfssl-data
+      device: ./cfssl-data
       o: bind
