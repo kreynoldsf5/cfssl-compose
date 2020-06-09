@@ -1,0 +1,43 @@
+version: "3"
+
+networks:
+  cfssl:
+    external: false
+
+services:
+  cfssl:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: example-cfssl:latest
+    container_name: example-cfssl
+    networks:
+      - cfssl
+    volumes:
+      - ca-volume:/etc/cfssl
+    restart: unless-stopped
+    command: serve -config /etc/cfssl/ca-config.json -ca-key /etc/cfssl/example-ca-key.pem -ca /etc/cfssl/example-ca.pem -address=0.0.0.0 -db-config=/etc/cfssl/db-config.json
+  proxy:
+    image: nginx:latest
+    container_name: ca-proxy
+    restart: unless-stopped
+    depends_on:
+      - cfssl
+    networks:
+      - cfssl
+    volumes:
+      - ./ca-proxy.conf:/etc/nginx/conf.d/ca-proxy.conf
+      - ./cert.pem:/data/custom_ssl/cert.pem
+      - ./key.pem:/data/custom_ssl/key.pem
+      - ./example-ca.pem:/data/custom_ssl/example-ca.pem
+    ports:
+      - "10.100.0.58:80:80"
+      - "10.100.0.58:443:443"
+
+volumes:
+  ca-volume:
+    driver: local
+    driver_opts: 
+      type: none
+      device: ${PWD}/cfssl-data
+      o: bind
