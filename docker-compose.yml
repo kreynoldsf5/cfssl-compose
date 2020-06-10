@@ -26,13 +26,18 @@ services:
     networks:
       - cfssl
     volumes:
-      - ca-volume/ca-proxy.conf:/etc/nginx/conf.d/ca-proxy.conf
-      - ca-volume/proxy.pem:/data/custom_ssl/cert.pem
-      - ca-volume/proxy-key.pem:/data/custom_ssl/key.pem
-      - ca-volume/example-ca.pem:/data/custom_ssl/example-ca.pem
+      - ${PWD}/cfssl-data/ca-proxy.conf:/etc/nginx/conf.d/ca-proxy.conf
+      - ${PWD}/cfssl-data/proxy.pem:/data/custom_ssl/cert.pem
+      - ${PWD}/cfssl-data/proxy-key.pem:/data/custom_ssl/key.pem
+      - ${PWD}/cfssl-data/example-ca.pem:/data/custom_ssl/example-ca.pem
     ports:
       - "10.1.10.10:8181:80"
       - "10.1.10.10:8443:443"
 
 volumes:
   ca-volume:
+    driver: local
+    driver_opts: 
+      type: none
+      device: ${PWD}/cfssl-data
+      o: bind
