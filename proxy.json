@@ -1,0 +1,16 @@
+{
+    "CN": "ca.demo.internal",
+    "key": {
+      "algo": "rsa",
+      "size": 2048
+    },
+      "names": [
+         {
+           "C": "US",
+           "L": "Seattle",
+           "O": "F5 Networks",
+           "OU": "GSA Team",
+           "ST": "Washington"
+         }
+      ]
+  }

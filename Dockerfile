@@ -17,7 +17,9 @@ WORKDIR /etc/cfssl
 COPY ./ca-config.json .
 COPY ./db-config.json .
 COPY ./ca-csr.json .
+COPY ./proxy.json .
 RUN cfssl genkey -config ca-config.json -initca ca-csr.json | cfssljson -bare example-ca
+RUN cfssl gencert -remote="localhost:8888" ca.demo.internal proxy.json
 VOLUME [ "/etc/cfssl" ]
 EXPOSE 8888
 ENTRYPOINT ["cfssl"]
