@@ -14,7 +14,7 @@ services:
     networks:
       - cfssl
     volumes:
-      - ca-volume:/etc/cfssl
+      - ./cfssl-data:/etc/cfssl
     restart: unless-stopped
     command: serve -config /etc/cfssl/ca-config.json -ca-key /etc/cfssl/example-ca-key.pem -ca /etc/cfssl/example-ca.pem -address=0.0.0.0 -db-config=/etc/cfssl/db-config.json
   proxy:
@@ -33,11 +33,3 @@ services:
     ports:
       - "10.100.0.58:80:80"
       - "10.100.0.58:443:443"
-
-volumes:
-  ca-volume:
-    driver: local
-    driver_opts: 
-      type: none
-      device: ./cfssl-data
-      o: bind
