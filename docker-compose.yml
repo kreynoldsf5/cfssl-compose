@@ -26,10 +26,10 @@ services:
     networks:
       - cfssl
     volumes:
-      - ./cfssl-compose/ca-proxy.conf:/etc/nginx/conf.d/ca-proxy.conf
-      - ./cfssl-compose/proxy.pem:/data/custom_ssl/cert.pem
-      - ./cfssl-compose/proxy-key.pem:/data/custom_ssl/key.pem
-      - ./cfssl-compose/example-ca.pem:/data/custom_ssl/example-ca.pem
+      - ./cfssl-data/ca-proxy.conf:/etc/nginx/conf.d/ca-proxy.conf
+      - ./cfssl-data/proxy.pem:/data/custom_ssl/cert.pem
+      - ./cfssl-data/proxy-key.pem:/data/custom_ssl/key.pem
+      - ./cfssl-data/example-ca.pem:/data/custom_ssl/example-ca.pem
     ports:
       - "10.1.10.10:8181:80"
       - "10.1.10.10:8443:443"
