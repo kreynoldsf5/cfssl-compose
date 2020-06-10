@@ -19,7 +19,7 @@ COPY ./db-config.json .
 COPY ./ca-csr.json .
 COPY ./proxy.json .
 RUN cfssl genkey -config ca-config.json -initca ca-csr.json | cfssljson -bare example-ca
-RUN cfssl gencert -remote="localhost:8888" ca.demo.internal proxy.json
+RUN cfssl gencert -ca example-ca.pem -ca-key example-ca-key.pem -config ca-config.json -profile=server proxy.json | cfssljson -bare proxy
 VOLUME [ "/etc/cfssl" ]
 EXPOSE 8888
 ENTRYPOINT ["cfssl"]

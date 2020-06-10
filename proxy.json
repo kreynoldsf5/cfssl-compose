@@ -12,5 +12,10 @@
            "OU": "GSA Team",
            "ST": "Washington"
          }
+      ],
+      "hosts": [
+        "ca.example.demo",
+        "ca.demo.internal",
+        "localhost"
       ]
   }
